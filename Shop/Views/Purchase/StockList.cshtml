@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Shop.Models.Stock>
+
+@{
+    ViewBag.Title = "StockList";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<h2>StockList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "PurchaseItem")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Product Name")
+        </th>
+        <th>
+            @Html.DisplayName("Company")
+        </th>
+        <th>
+            @Html.DisplayName("Color")
+          
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Products.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Companies.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colors.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+          
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Shop.Models.Product>
+
+@{
+    ViewBag.Title = "ProductList";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<h2>ProductList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddNewProduct")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+           
+            @Html.ActionLink("Details", "ProductDetails", new { id = item.ProductId }) 
+            
+        </td>
+    </tr>
+}
+
+</table>

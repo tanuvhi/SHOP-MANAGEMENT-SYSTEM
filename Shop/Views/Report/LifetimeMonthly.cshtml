@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Shop.Models.MonthlyValue>
+@{
+    ViewBag.Title = "salsein12Months";
+    List<int> x = new List<int>();
+    List<int> y = new List<int>();
+}
+
+@{
+    int i = 0;
+    foreach (var v in Model)
+    {
+        x.Add(v.month);
+        y.Add(v.sales);
+        //Xid[i] = v.productid;
+        //Yquantity[i] = v.quantity;
+        i++;
+    }
+
+}
+
+<h2>LifeTime Monthly</h2>
+
+
+@{
+    var myChart = new Chart(width: 800, height: 400)
+        .AddTitle("Chart Title")
+        .AddSeries(
+            "Default", chartType: "Bar",
+            xValue: x,
+            yValues: y)
+        .Write();
+}

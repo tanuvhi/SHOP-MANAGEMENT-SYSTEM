@@ -1,0 +1,190 @@
+﻿@model  Shop.Models.OrderDetail
+
+@{
+    ViewBag.Title = "OrderDetailsEdit";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<h2>OrderDetailsEdit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>OrderDetail</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.OrderDetailsId)
+        @Html.HiddenFor(model => model.OrderId)
+ 
+        @Html.HiddenFor(model => model.ProductId, new { @id = "ProductId" })
+
+        <div class="form-group">
+            @Html.Label( "Product Name", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Products.Name, String.Empty, new { @id = "ProductName", @class = "form-control pagerlink",required=string.Empty })
+                @Html.ValidationMessageFor(model => model.ProductId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Company", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.CompanyId, ViewBag.Company as SelectList, new { @id = "Company", @class = "form-control" })
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Color", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10" id="District">
+                @Html.DropDownListFor(m => m.Colors.ColorId, ViewBag.Color as SelectList, new { @id = "Color", @class = "form-control" })
+                <span id="states-loading-progress" style="display: none;">Please wait..</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control pagerlink", required = string.Empty })
+                @Html.ValidationMessageFor(model => model.Price)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Quantity, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control pagerlink", required = string.Empty })
+                @Html.ValidationMessageFor(model => model.Quantity)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+        function Color(id) {
+
+
+            var ddlStates = $("#Color" );
+
+            $.ajax({
+
+                url: "/Order/GetColor",
+                type: "POST",
+                dataType: "json",
+                data: { "productId": id },
+                success: function (data) {
+                    ddlStates.find('option').remove();
+                    ddlStates.append('<option value=""></option>');
+                    $.each(data, function (id, option) {
+
+                        ddlStates.append('<option value="' + option.id + '">' + option.name + '</option> ');
+                    });
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                    statesProgress.hide();
+                }
+            });
+        }
+
+        function Company(id) {
+
+
+            var ddlStates = $("#Company" );
+
+            $.ajax({
+
+                url: "/Order/GetCompany",
+                type: "POST",
+                dataType: "json",
+                data: { "productId": id },
+                success: function (data) {
+                    ddlStates.find('option').remove();
+                    ddlStates.append('<option value=""></option>');
+                    $.each(data, function (id, option) {
+
+                        ddlStates.append('<option value="' + option.id + '">' + option.name + '</option> ');
+                    });
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert('Failed to retrieve states.');
+                    statesProgress.hide();
+                }
+            });
+        }
+    </script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+    <script type="text/javascript">
+
+
+        function clearAutoCompleteInput(id) {
+            var $tid = $("#" + id)
+            $tid.val('');
+        }
+
+        $(document).on("input", '.pagerlink', function () {
+
+            var $id = $(this).attr("id");
+     
+
+            var $itmeId = $("#ProductId");
+
+            $('input.pagerlink').autocomplete({
+                source: function (request, response) {
+
+                    $.ajax({
+                        url: "/Order/PNameAutoComplite",
+                        type: "POST",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+
+                                return {
+                                    label: item.Name,
+                                    value1: item.ProductId
+
+                                };
+
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    $(this).val(ui.item.label);
+                    $itmeId.val(ui.item.value1);
+
+                    success: Company(ui.item.value1);
+                    success: Color(ui.item.value1);
+                    return false;
+                }
+
+            });
+        });
+    </script>
+}

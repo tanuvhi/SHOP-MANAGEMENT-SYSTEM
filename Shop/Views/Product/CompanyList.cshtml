@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Shop.Models.Company>
+
+@{
+    ViewBag.Title = "CompanyList";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<h2>CompanyList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddNewCompany")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "CompanyEdit", new { id = item.CompanyId }) 
+            
+        </td>
+    </tr>
+}
+
+</table>

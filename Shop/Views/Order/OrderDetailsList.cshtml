@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Shop.Models.OrderDetail>
+
+@{
+    ViewBag.Title = "OrederDetailsList";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+}
+
+<h2>OrederDetailsList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Orders.OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Products.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Orders.OrderId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Products.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "OrderDetailsEdit", new { id = item.OrderDetailsId }) 
+      
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Shop.Models.Product>
+@{
+
+    
+
+    string[] Xid = new string[5];
+    int[] Yquantity = new int[5];
+    List<string> x = new List<string>();
+    List<int> y = new List<int>();
+
+    <h2>ReportForNoOfDays</h2>
+
+    int i = 0;
+    foreach (var v in Model)
+    {
+        x.Add(v.Name);
+        y.Add(v.ProductId);
+
+        i++;
+    }
+
+
+    var myChart = new Chart(width: 900, height: 600)
+        .AddTitle(" All Time Most Sell")
+
+        .AddSeries(
+            name: "Employee",
+            xValue: x, xField: "Product",
+            yValues: y, yFields: "Quantity")
+        .Write();
+
+}

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Shop.Models.Product>
+@{
+
+
+
+    string[] Xid = new string[13];
+    int[] Yquantity = new int[13];
+    List<string> x = new List<string>();
+    List<int> y = new List<int>();
+
+    <h2>ReportForNoOfDays</h2>
+
+    int i = 0;
+    foreach (var v in Model)
+    {
+        string mon = "January";
+        
+         if(v.Name=="1")
+            {
+                mon = "January";
+         }else if(v.Name=="2")
+         {
+             mon = "February";
+         }
+         else if (v.Name == "3")
+         {
+             mon = "March";
+         }
+         else if (v.Name == "4")
+         {
+             mon = "April";
+         }
+         else if (v.Name == "5")
+         {
+             mon = "May";
+         }
+         else if (v.Name == "6")
+         {
+             mon = "June";
+         }
+         else if (v.Name == "7")
+         {
+             mon = "July";
+         }
+         else if (v.Name == "8")
+         {
+             mon = "Augest";
+         }
+         else if (v.Name == "9")
+         {
+             mon = "September";
+         }
+         else if (v.Name == "10")
+         {
+             mon = "October";
+         }
+         else if (v.Name == "11")
+         {
+             mon = "November";
+         }
+         else if (v.Name == "12")
+         {
+             mon = "December";
+         }
+       
+        x.Add(mon);
+        y.Add(v.ProductId);
+
+        i++;
+    }
+
+
+    var myChart = new Chart(width: 900, height: 600)
+        .AddTitle("2016 Monthly Sell Report")
+
+        .AddSeries(
+            name: "Employee",
+            xValue: x, xField: "Month",
+            yValues: y, yFields: "Amount")
+        .Write();
+
+}
